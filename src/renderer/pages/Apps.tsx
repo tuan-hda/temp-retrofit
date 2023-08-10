@@ -15,9 +15,14 @@ const Apps = () => {
         <div className="h-[200px]">{state?.error}</div>
         <div className="h-[200px]">{state?.stdout}</div>
         <div className="h-[200px]">{state?.stderr}</div>
-        {/* <div className="h-[200px] bg-white" onClick={() => window.send("open-nautilus")}>
+        <div
+          className="h-[200px] bg-white"
+          onClick={() =>
+            window.electron.ipcRenderer.sendMessage('open-nautilus')
+          }
+        >
           Click here
-        </div> */}
+        </div>
         <div className="h-[200px] bg-white" />
         <div className="h-[200px] bg-white" />
         <div className="h-[200px] bg-white" />
