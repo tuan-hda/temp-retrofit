@@ -1,6 +1,10 @@
 module.exports = {
   extends: 'erb',
-  plugins: ['@typescript-eslint'],
+  plugins: [
+    '@typescript-eslint',
+    '@react-native-community',
+    'eslint-config-prettier',
+  ],
   rules: {
     // A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
