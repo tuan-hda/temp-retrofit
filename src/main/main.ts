@@ -10,9 +10,10 @@
  */
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain, screen } from 'electron';
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import fs from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -46,7 +47,7 @@ const installExtensions = async () => {
   return installer
     .default(
       extensions.map((name) => installer[name]),
-      forceDownload
+      forceDownload,
     )
     .catch(console.log);
 };
@@ -136,7 +137,11 @@ app
   .catch(console.log);
 
 ipcMain.on('open-nautilus', () => {
-  exec('nautilus --browser .', (error, stdout, stderr) => {
-    console.log(error, stdout, stderr);
+  const tempSensor = spawn('python3', [
+    __dirname + '/../../../sensors/temp.py',
+  ]);
+
+  tempSensor.stdout.on('data', (data) => {
+    console.log(JSON.parse(data.toString()).abc);
   });
 });

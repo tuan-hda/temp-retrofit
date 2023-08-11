@@ -15,7 +15,10 @@ export const stateSlice = createSlice({
   name: 'state',
   initialState,
   reducers: {
-    changeTemp: (state, action) => {
+    updateOutTempAction: (state, action) => {
+      state.outTemp = action.payload;
+    },
+    changeTempAction: (state, action) => {
       const { type, value } = action.payload;
       if (type === 'left') {
         state.leftTemp += value;
@@ -26,5 +29,5 @@ export const stateSlice = createSlice({
   },
 });
 
-export const { changeTemp } = stateSlice.actions;
+export const { changeTempAction, updateOutTempAction } = stateSlice.actions;
 export default stateSlice.reducer;
