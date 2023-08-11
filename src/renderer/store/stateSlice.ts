@@ -9,25 +9,44 @@ const initialState = {
   noti: 12,
   leftTemp: 20,
   rightTemp: 20,
+  humidity: 0,
+  lux: 0,
+};
+
+const TEMP_RANGE = [15, 40];
+
+const isValidTemp = (temp: number) => {
+  return temp >= TEMP_RANGE[0] && temp <= TEMP_RANGE[1];
 };
 
 export const stateSlice = createSlice({
   name: 'state',
   initialState,
   reducers: {
-    updateOutTempAction: (state, action) => {
-      state.outTemp = action.payload;
+    updateEnvAction: (state, action) => {
+      state.outTemp = Math.round(action.payload.outTemp);
+      state.humidity = Math.round(action.payload.humidity);
+    },
+    updateLuxAction: (state, action) => {
+      state.lux = Math.round(action.payload);
     },
     changeTempAction: (state, action) => {
       const { type, value } = action.payload;
       if (type === 'left') {
-        state.leftTemp += value;
+        const newTemp = state.leftTemp + value;
+        if (isValidTemp(newTemp)) {
+          state.leftTemp = newTemp;
+        }
       } else {
-        state.rightTemp += value;
+        const newTemp = state.rightTemp + value;
+        if (isValidTemp(newTemp)) {
+          state.rightTemp = newTemp;
+        }
       }
     },
   },
 });
 
-export const { changeTempAction, updateOutTempAction } = stateSlice.actions;
+export const { changeTempAction, updateEnvAction, updateLuxAction } =
+  stateSlice.actions;
 export default stateSlice.reducer;

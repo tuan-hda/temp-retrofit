@@ -5,13 +5,15 @@ import { BiSolidNavigation } from 'react-icons/bi';
 import { IoCallOutline } from 'react-icons/io5';
 import { AiOutlineCar, AiOutlineAppstore } from 'react-icons/ai';
 import { Link, matchRoutes, useLocation } from 'react-router-dom';
+import { BsCardText } from 'react-icons/bs';
 
 const MENU_ITEMS = [
-  { icon: BiSolidNavigation, path: '/' },
+  { icon: BiSolidNavigation, path: '/nav' },
   { icon: AiOutlineAppstore, path: '/apps' },
   { icon: LuMusic, path: '/music' },
   { icon: IoCallOutline, path: '/dial' },
-  { icon: AiOutlineCar, path: '/car' },
+  { icon: BsCardText, path: '/message' },
+  { icon: AiOutlineCar, path: '/' },
 ];
 
 const NavBar = () => {
@@ -31,7 +33,7 @@ const NavBar = () => {
             <Item
               className={classNames(
                 'text-3xl',
-                item.path === route?.route.path ? 'text-white' : 'text-gray-1'
+                item.path === route?.route.path ? 'text-white' : 'text-gray-1',
               )}
             />
             {item.path === route?.route.path && (

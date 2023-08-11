@@ -8,14 +8,16 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain, screen } from 'electron';
 import { exec, spawn } from 'child_process';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import fs from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import axios from 'axios';
 
 class AppUpdater {
   constructor() {
@@ -75,6 +77,7 @@ const createWindow = async () => {
     frame: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      devTools: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -137,11 +140,28 @@ app
   .catch(console.log);
 
 ipcMain.on('open-nautilus', () => {
-  const tempSensor = spawn('python3', [
-    __dirname + '/../../../sensors/temp.py',
-  ]);
-
-  tempSensor.stdout.on('data', (data) => {
-    console.log(JSON.parse(data.toString()).abc);
-  });
+  exec('nautilus --browser .');
 });
+
+ipcMain.on('send-message', async (e: any, message: any) => {
+  const data = new URLSearchParams();
+  data.append('message', message);
+
+  try {
+    await axios.post('http://192.168.1.95/showMessage', data);
+    console.log('Suceeded');
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+ipcMain.on(
+  'launch-app',
+  (_: any, receiveChannel: any, lang: any, path: any) => {
+    const childProcess = spawn(lang, [path]);
+    childProcess.stdout.on('data', (payload) => {
+      const data = JSON.parse(payload.toString());
+      mainWindow?.webContents.send(receiveChannel, data);
+    });
+  },
+);

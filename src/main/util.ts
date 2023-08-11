@@ -1,7 +1,8 @@
 /* eslint import/prefer-default-export: off */
 import { URL } from 'url';
 import path from 'path';
-
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 export function resolveHtmlPath(htmlFileName: string) {
   if (process.env.NODE_ENV === 'development') {
     const port = process.env.PORT || 1212;
