@@ -32,18 +32,18 @@ const useConnect = () => {
   //   };
   // }, []);
   useEffect(() => {
-    window.electron.ipcRenderer.sendMessage(
-      'launch-app',
-      'env-sensor',
-      'python',
-      '/home/retrofit/build/Environment_sensor_fot_jetson_nano_rev3/BME280-test.py',
-    );
-    window.electron.ipcRenderer.sendMessage(
-      'launch-app',
-      'env-lux',
-      'python',
-      '/home/retrofit/build/Environment_sensor_fot_jetson_nano_rev3/TSL2591.py',
-    );
+    // window.electron.ipcRenderer.sendMessage(
+    //   'launch-app',
+    //   'env-sensor',
+    //   'python',
+    //   '/home/retrofit/build/Environment_sensor_fot_jetson_nano_rev3/BME280-test.py',
+    // );
+    // window.electron.ipcRenderer.sendMessage(
+    //   'launch-app',
+    //   'env-lux',
+    //   'python',
+    //   '/home/retrofit/build/Environment_sensor_fot_jetson_nano_rev3/TSL2591.py',
+    // );
   }, []);
 
   useEffect(() => {
